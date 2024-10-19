@@ -35,28 +35,28 @@ gender = st.radio("**Выберите пол:**", ("Мужской", "Женск
 if gender == "Мужской":
     normal_ranges = {
         'Возраст': (0, 100),
-        'Висцеральный жир, %': (1, 10),
-        'Мышечная масса, %': (40, 50),
+        'Висц.ж,%': (1, 10),
+        'Мыш.м,%': (40, 50),
         'ИМТ': (18.5, 24.9),
-        'АЛТ (ед/л)': (7, 42),
-        'АСТ (ед/л)': (7, 42),
-        'ГГТП (ед/л)': (9, 40),
-        'ЛПНП (ммоль/л)': (2, 5),
-        'Ферритин (нг/мл)': (20, 250),
-        'Общий белок (г/л)': (60, 85)
+        'АЛТ': (7, 42),
+        'АСТ': (7, 42),
+        'ГГТП': (9, 40),
+        'ЛПНП': (2, 5),
+        'Ферритин': (20, 250),
+        'О.белок': (60, 85)
     }
 else:
     normal_ranges = {
         'Возраст': (0, 100),
-        'Висцеральный жир, %': (1, 10),
-        'Мышечная масса, %': (30, 40),
+        'Висц.ж,%': (1, 10),
+        'Мыш.м,%': (30, 40),
         'ИМТ': (18.5, 24.9),
-        'АЛТ (ед/л)': (7, 42),
-        'АСТ (ед/л)': (7, 42),
-        'ГГТП (ед/л)': (9, 32),
-        'ЛПНП (ммоль/л)': (1.9, 4.6),
-        'Ферритин (нг/мл)': (10, 130),
-        'Общий белок (г/л)': (60, 85)
+        'АЛТ': (7, 42),
+        'АСТ': (7, 42),
+        'ГГТП': (9, 32),
+        'ЛПНП': (1.9, 4.6),
+        'Ферритин': (10, 130),
+        'О.белок': (60, 85)
     }
 
 col1, col2 = st.columns(2)
@@ -64,15 +64,15 @@ col1, col2 = st.columns(2)
 with col1:
     st.header("**Введите показатели:**")
     age = st.number_input("**Возраст**", min_value=0, max_value=100, value=30)
-    vis_fat = st.number_input("**Висцеральный жир, %**", min_value=0.0, max_value=100.0, value=5.0)
-    muscle_mass = st.number_input("**Мышечная масса, %**", min_value=0.0, max_value=100.0, value=30.0)
-    bmi = st.number_input("**Индекс массы тела (ИМТ)**", min_value=0.0, max_value=100.0, value=24.0)
-    alt = st.number_input("**АЛТ (ед/л)**", min_value=0.0, max_value=200.0, value=30.0)
-    ast = st.number_input("**АСТ (ед/л)**", min_value=0.0, max_value=200.0, value=30.0)
-    ggtp = st.number_input("**ГГТП (ед/л)**", min_value=0.0, max_value=200.0, value=15.0)
-    ldl = st.number_input("**ЛПНП (ммоль/л)**", min_value=0.0, max_value=10.0, value=3.0)
-    ferritin = st.number_input("**Ферритин (нг/мл)**", min_value=0.0, max_value=1000.0, value=50.0)
-    total_protein = st.number_input("**Общий белок (г/л)**", min_value=0.0, max_value=100.0, value=70.0)
+    vis_fat = st.number_input("**Висц.ж,%**", min_value=0.0, max_value=100.0, value=5.0)
+    muscle_mass = st.number_input("**Мыш.м,%**", min_value=0.0, max_value=100.0, value=30.0)
+    bmi = st.number_input("**ИМТ**", min_value=0.0, max_value=100.0, value=24.0)
+    alt = st.number_input("**АЛТ**", min_value=0.0, max_value=200.0, value=30.0)
+    ast = st.number_input("**АСТ**", min_value=0.0, max_value=200.0, value=30.0)
+    ggtp = st.number_input("**ГГТП**", min_value=0.0, max_value=200.0, value=15.0)
+    ldl = st.number_input("**ЛПНП**", min_value=0.0, max_value=10.0, value=3.0)
+    ferritin = st.number_input("**Ферритин**", min_value=0.0, max_value=1000.0, value=50.0)
+    total_protein = st.number_input("**О.белок**", min_value=0.0, max_value=100.0, value=70.0)
 
 with col2:
     if st.button("Рассчитать Прогноз"):
@@ -101,7 +101,7 @@ with col2:
 
         st.subheader("**Сравнение введенных значений с нормальными диапазонами**")
         fig, ax = plt.subplots(figsize=(8, 5))
-        features = ['Возраст', 'Висцеральный жир, %', 'Мышечная масса, %', 'ИМТ', 'АЛТ (ед/л)', 'АСТ (ед/л)', 'ГГТП (ед/л)', 'ЛПНП', 'Ферритин', 'Общий белок (г/л)']
+        features = ['Возраст', 'Висц.ж,%', 'Мыш.м,%', 'ИМТ', 'АЛТ', 'АСТ', 'ГГТП', 'ЛПНП', 'Ферритин', 'О.белок']
         user_values = [age, vis_fat, muscle_mass, bmi, alt, ast, ggtp, ldl, ferritin, total_protein]
         normal_min = [normal_ranges[feat][0] for feat in features]
         normal_max = [normal_ranges[feat][1] for feat in features]
