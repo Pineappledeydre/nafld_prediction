@@ -39,7 +39,7 @@ gender = st.radio("**Выберите пол:**", ("Мужской", "Женск
 # Adjust normal ranges based on gender
 if gender == "Мужской":
     normal_ranges = {
-        'Жир, %': (12, 27),
+        'Общий Жир, %': (12, 27),
         'Висцеральный жир, %': (1, 10),
         'Мышечная масса, %': (40, 50),
         'ИМТ': (18.5, 24.9),
@@ -65,7 +65,7 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.header("**Введите показатели:**")
-    О_ж = st.number_input("**Ожирение, %**", min_value=0.0, max_value=100.0, value=25.0)
+    О_ж = st.number_input("**Общий Жир, %**", min_value=0.0, max_value=100.0, value=25.0)
     Висц_ж = st.number_input("**Висцеральный жир, %**", min_value=0.0, max_value=100.0, value=5.0)
     Мыш_м = st.number_input("**Мышечная масса, %**", min_value=0.0, max_value=100.0, value=30.0)
     ИМТ = st.number_input("**Индекс массы тела (ИМТ)**", min_value=0.0, max_value=200.0, value=20.0)
@@ -102,7 +102,7 @@ with col2:
         # Visual comparison of inputs vs normal ranges
         st.subheader("**Сравнение введенных значений с нормальными диапазонами**")
         fig, ax = plt.subplots(figsize=(8, 5))
-        features = ['Ожирение, %', 'Висцеральный жир, %', 'Мышечная масса, %', 'ИМТ', 'АЛТ (ед/л)', 'АСТ (ед/л)', 'ГГТП (ед/л)', 'Общий белок (г/л)']
+        features = ['Общий Жир, %', 'Висцеральный жир, %', 'Мышечная масса, %', 'ИМТ', 'АЛТ (ед/л)', 'АСТ (ед/л)', 'ГГТП (ед/л)', 'Общий белок (г/л)']
         user_values = [О_ж, Висц_ж, Мыш_м, ИМТ, АЛТ, АСТ, ГГТП, О_белок]
         normal_min = [normal_ranges[feat][0] for feat in features]
         normal_max = [normal_ranges[feat][1] for feat in features]
