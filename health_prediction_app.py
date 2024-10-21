@@ -2681,7 +2681,7 @@ with col2:
         
         for i, feature in enumerate(features):
            actual_range_text = f"Норма: {normal_min[i]} - {normal_max[i]}"
-           user_value_text = f"{user_values[i]:.2f}"
+           user_value_text = f"{user_values_scaled[i]:.2f}"
            
            ax.annotate(f"Норма: {actual_range_text}", xy=(1.0, i), xycoords='data', 
                        textcoords='offset points', fontsize=10, color='gray', xytext=(10, 0))
