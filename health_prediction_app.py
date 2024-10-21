@@ -2679,7 +2679,7 @@ with col2:
         ax.set_yticks(range(len(features)))
         ax.set_yticklabels(features, fontsize=11, fontweight='bold')
         
-       for i, feature in enumerate(features):
+        for i, feature in enumerate(features):
            actual_range_text = f"Норма: {normal_min[i]} - {normal_max[i]}"
            user_value_text = f"{user_values[i]:.2f}"
            
