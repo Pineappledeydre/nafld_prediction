@@ -2665,7 +2665,9 @@ with col2:
         
         for i, (min_val, max_val) in enumerate(zip(normal_min_scaled, normal_max_scaled)):
             ax.plot([min_val, max_val], [i, i], color='gray', lw=6, alpha=0.5, label='Нормальный диапазон' if i == 0 else "")
-        
+        features = ['Возраст', 'О.ж.,%', 'Висц.ж,%', 'Скелет,%', 'Кости,кг', 'Вода,%', 'СООВ,ккал', 'ОГ,см', 
+                'ОТ,см', 'ОЖ,см', 'ОБ,см', 'ИМТ', 'АЛТ', 'АСТ', 'ГГТП', 'ЩФ', 'ХСобщ.', 'ЛПНП', 'ЛПВП', 
+                'Триглиц.', 'Билир.о', 'Билир.пр', 'Глюкоза']
         ax.scatter(user_values_scaled, range(len(features)), color='blue', s=100, zorder=5, label='Ваши значения')
         
         ax.set_xlabel('Нормализованные значения (0-1)', fontsize=12, fontweight='bold')
