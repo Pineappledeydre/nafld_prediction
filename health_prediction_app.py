@@ -2674,7 +2674,7 @@ with col2:
 
         ax.scatter(user_values_scaled, range(len(features)), color='blue', s=100, zorder=5, label='Ваши значения')
         
-        ax.set_xlabel('Нормализованные значения (0-1)', fontsize=12, fontweight='bold')
+        ax.set_xlabel('')
      
         ax.set_yticks(range(len(features)))
         ax.set_yticklabels(features, fontsize=11, fontweight='bold')
@@ -2683,9 +2683,9 @@ with col2:
            actual_range_text = f"Норма: {normal_min[i]} - {normal_max[i]}"
            user_value_text = f"{user_values_scaled[i]:.2f}"
            
-           ax.annotate(f"Норма: {actual_range_text}", xy=(1.0, i), xycoords='data', 
+           ax.annotate(f"Норма: {actual_range_text}", xy=(1.5, i), xycoords='data', 
                        textcoords='offset points', fontsize=10, color='gray', xytext=(10, 0))
-        
+        ax.set_xticklabels([])
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
         ax.spines['left'].set_linewidth(1.5)
