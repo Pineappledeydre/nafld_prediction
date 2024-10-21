@@ -2692,7 +2692,8 @@ with col2:
         ax.spines['bottom'].set_linewidth(1.5)
         ax.set_xlim([-0.5, 1.5])
         ax.grid(True, axis='x', linestyle='--', alpha=0.6)
-        ax.legend(['Норма', 'Вы'],loc='lower left', fontsize=10)
+        handles, labels = ax.get_legend_handles_labels()
+        ax.legend(handles, ['Норма', 'Вы'],loc='lower left', fontsize=8)
         
         st.pyplot(fig)
 
