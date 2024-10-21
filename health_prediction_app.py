@@ -2683,7 +2683,7 @@ with col2:
            actual_range_text = f"Норма: {normal_min[i]} - {normal_max[i]}"
            user_value_text = f"{user_values_scaled[i]:.2f}"
            
-           ax.annotate(f"Норма: {actual_range_text}", xy=(1.5, i), xycoords='data', 
+           ax.annotate(f"{actual_range_text}", xy=(1.5, i), xycoords='data', 
                        textcoords='offset points', fontsize=10, color='gray', xytext=(10, 0))
         ax.set_xticklabels([])
         ax.spines['right'].set_visible(False)
