@@ -2679,19 +2679,22 @@ with col2:
         ax.set_yticks(range(len(features)))
         ax.set_yticklabels(features, fontsize=11, fontweight='bold')
         
-        for i, feature in enumerate(features):
-            actual_range_text = f"{normal_min[i]} - {normal_max[i]}"
-            user_value_text = f"{input_features[i+1]:.2f}"
-            ax.annotate(f"Норма: {actual_range_text}", xy=(1.05, i), xycoords='data',
-                        textcoords='axes fraction', fontsize=10, color='gray')
-            ax.annotate(f"Ваше: {user_value_text}", xy=(1.15, i), xycoords='data',
-                        textcoords='axes fraction', fontsize=10, color='blue')
+       for i, feature in enumerate(features):
+           actual_range_text = f"Норма: {normal_min[i]} - {normal_max[i]}"
+           user_value_text = f"{user_values[i]:.2f}"
+           
+           ax.annotate(f"Норма: {actual_range_text}", xy=(1.0, i), xycoords='data', 
+                       textcoords='offset points', fontsize=10, color='gray', xytext=(10, 0))
+           
+           ax.annotate(f"Ваше: {user_value_text}", xy=(1.0, i), xycoords='data', 
+                       textcoords='offset points', fontsize=10, color='blue', xytext=(50, 0))
+
         
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
         ax.spines['left'].set_linewidth(1.5)
         ax.spines['bottom'].set_linewidth(1.5)
-        
+        ax.set_xlim([0, 1.5])
         ax.grid(True, axis='x', linestyle='--', alpha=0.6)
         ax.legend(loc='lower right', fontsize=10)
         
