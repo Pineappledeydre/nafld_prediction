@@ -2656,10 +2656,11 @@ with col2:
             st.error("Модель предсказывает, что вы больны.")
         else:
             st.success("Модель предсказывает, что вы здоровы.")
-
-        st.subheader("**📊 Сравнение ваших значений с нормальными диапазонами**")
-        st.title("📊 Сравнение показателей с нормальными диапазонами")
-        
+       
+        user_values_scaled = min_max_scaler(np.array(input_features[1:]), feature_min[1:], feature_max[1:])
+        normal_min_scaled = [0 for _ in feature_min[1:]]
+        normal_max_scaled = [1 for _ in feature_max[1:]]
+        st.subheader("**📊 Сравнение ваших значений с нормальными диапазонами**")        
         fig, ax = plt.subplots(figsize=(8, 5))
         
         for i, (min_val, max_val) in enumerate(zip(normal_min_scaled, normal_max_scaled)):
@@ -2668,8 +2669,7 @@ with col2:
         ax.scatter(user_values_scaled, range(len(features)), color='blue', s=100, zorder=5, label='Ваши значения')
         
         ax.set_xlabel('Нормализованные значения (0-1)', fontsize=12, fontweight='bold')
-        ax.set_title('Сравнение показателей с нормальными диапазонами (нормализованные)', fontsize=14, fontweight='bold')
-        
+     
         ax.set_yticks(range(len(features)))
         ax.set_yticklabels(features, fontsize=11, fontweight='bold')
         
