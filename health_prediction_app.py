@@ -2672,7 +2672,7 @@ with col2:
         normal_min = [normal_ranges[feat][0] for feat in features]
         normal_max = [normal_ranges[feat][1] for feat in features]
 
-        ax.scatter(user_values_scaled, range(len(features)), color='blue', s=100, zorder=5, label='Ваши значения')
+        ax.scatter(user_values_scaled, range(len(features)), color='blue', s=60, zorder=5, label='Вы')
         
         ax.set_xlabel('')
      
