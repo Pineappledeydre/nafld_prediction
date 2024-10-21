@@ -2668,6 +2668,10 @@ with col2:
         features = ['Возраст', 'О.ж.,%', 'Висц.ж,%', 'Скелет,%', 'Кости,кг', 'Вода,%', 'СООВ,ккал', 'ОГ,см', 
                 'ОТ,см', 'ОЖ,см', 'ОБ,см', 'ИМТ', 'АЛТ', 'АСТ', 'ГГТП', 'ЩФ', 'ХСобщ.', 'ЛПНП', 'ЛПВП', 
                 'Триглиц.', 'Билир.о', 'Билир.пр', 'Глюкоза']
+
+        normal_min = [normal_ranges[feat][0] for feat in features]
+        normal_max = [normal_ranges[feat][1] for feat in features]
+
         ax.scatter(user_values_scaled, range(len(features)), color='blue', s=100, zorder=5, label='Ваши значения')
         
         ax.set_xlabel('Нормализованные значения (0-1)', fontsize=12, fontweight='bold')
