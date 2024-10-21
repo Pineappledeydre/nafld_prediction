@@ -2657,34 +2657,22 @@ with col2:
         else:
             st.success("Модель предсказывает, что вы здоровы.")
 
-        st.subheader("**Сравнение ваших значений с нормальными диапазонами**")
-        fig, ax = plt.subplots(figsize=(8, 5))
-        features = ['Возраст', 'О.ж.,%', 'Висц.ж,%', 'Скелет,%', 'Кости,кг', 'Вода,%', 'СООВ,ккал', 'ОГ,см', 
-                    'ОТ,см', 'ОЖ,см', 'ОБ,см', 'ИМТ', 'АЛТ', 'АСТ', 'ГГТП', 'ЩФ', 'ХСобщ.', 'ЛПНП', 'ЛПВП', 
-                    'Триглиц.', 'Билир.о', 'Билир.пр', 'Глюкоза']
+        st.subheader("**📊 Сравнение ваших значений с нормальными диапазонами**")
+        st.title("📊 Сравнение показателей с нормальными диапазонами")
         
-        user_values = input_features[1:]  # Skip gender (already handled)
-        normal_min = [normal_ranges[feat][0] for feat in features]
-        normal_max = [normal_ranges[feat][1] for feat in features]
-
-        # Normalize user values and ranges for consistent visualization
-        user_values_scaled = [(val - normal_min[i]) / (normal_max[i] - normal_min[i]) for i, val in enumerate(user_values)]
-        normal_min_scaled = [0 for _ in normal_min]
-        normal_max_scaled = [1 for _ in normal_max]
-
-        # Plot normalized normal ranges and user values
+        fig, ax = plt.subplots(figsize=(8, 5))
+        
         for i, (min_val, max_val) in enumerate(zip(normal_min_scaled, normal_max_scaled)):
             ax.plot([min_val, max_val], [i, i], color='gray', lw=6, alpha=0.5, label='Нормальный диапазон' if i == 0 else "")
-
+        
         ax.scatter(user_values_scaled, range(len(features)), color='blue', s=100, zorder=5, label='Ваши значения')
-
-        ax.set_xlabel('Нормализованные значения', fontsize=12, fontweight='bold')
+        
+        ax.set_xlabel('Нормализованные значения (0-1)', fontsize=12, fontweight='bold')
         ax.set_title('Сравнение показателей с нормальными диапазонами (нормализованные)', fontsize=14, fontweight='bold')
-
+        
         ax.set_yticks(range(len(features)))
         ax.set_yticklabels(features, fontsize=11, fontweight='bold')
-
-        # Display the actual ranges and user-entered values as annotations
+        
         for i, feature in enumerate(features):
             actual_range_text = f"{normal_min[i]} - {normal_max[i]}"
             user_value_text = f"{user_values[i]:.2f}"
@@ -2692,16 +2680,15 @@ with col2:
                         textcoords='axes fraction', fontsize=10, color='gray')
             ax.annotate(f"Ваше: {user_value_text}", xy=(1.15, i), xycoords='data',
                         textcoords='axes fraction', fontsize=10, color='blue')
-
-        # Remove unnecessary borders and adjust axis
+        
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
         ax.spines['left'].set_linewidth(1.5)
         ax.spines['bottom'].set_linewidth(1.5)
-
+        
         ax.grid(True, axis='x', linestyle='--', alpha=0.6)
         ax.legend(loc='lower right', fontsize=10)
-
+        
         st.pyplot(fig)
 
 st.write("---")
