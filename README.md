@@ -43,4 +43,4 @@
 This application is **not a substitute for professional medical diagnosis**. Always consult a healthcare professional for accurate assessments.
 
 ---
-Developed with ❤️ by [Pineappledeydre]
+Developed with ❤️ by Pineappledeydre
