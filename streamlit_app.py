@@ -11,11 +11,8 @@ MODEL_PATH = "models/ebm_model.pkl"
 with open(MODEL_PATH, "rb") as file:
     ebm = pickle.load(file)
 
-feature_names = [
-    'Пол', 'Возраст', 'О.ж.,%', 'Висц.ж,%', 'Скелет,%', 'Кости,кг', 'Вода,%', 'СООВ,ккал',
-    'ОГ,см', 'ОТ,см', 'ОЖ,см', 'ОБ,см', 'ИМТ', 'АЛТ', 'АСТ', 'ГГТП', 'ЩФ', 'ХСобщ.', 'ЛПНП',
-    'ЛПВП', 'Триглиц.', 'Билир.о', 'Билир.пр', 'Глюкоза'
-]
+# Extract expected feature names from the model
+feature_names = ebm.term_names_
 
 # Normal ranges for reference
 normal_ranges = {
@@ -53,31 +50,34 @@ st.write("Введите значения показателей для полу
 gender = st.radio("**Выберите пол:**", ("Мужской", "Женский"))
 gender_value = 0 if gender == "Мужской" else 1
 
-age = st.number_input("**Возраст**", min_value=0, max_value=100, value=30)
-total_fat = st.number_input("**О.ж.,%**", min_value=0.0, max_value=100.0, value=20.0)
-vis_fat = st.number_input("**Висц.ж,%**", min_value=0.0, max_value=100.0, value=5.0)
-skeletal_mass = st.number_input("**Скелет,%**", min_value=0.0, max_value=100.0, value=40.0)
-bone_mass = st.number_input("**Кости,кг**", min_value=0.0, max_value=20.0, value=3.0)
-water = st.number_input("**Вода,%**", min_value=0.0, max_value=100.0, value=60.0)
-metabolic_rate = st.number_input("**СООВ,ккал**", min_value=0.0, max_value=5000.0, value=2000.0)
-chest = st.number_input("**ОГ,см**", min_value=0.0, max_value=150.0, value=90.0)
-waist = st.number_input("**ОТ,см**", min_value=0.0, max_value=150.0, value=80.0)
-hip = st.number_input("**ОЖ,см**", min_value=0.0, max_value=150.0, value=100.0)
-thigh = st.number_input("**ОБ,см**", min_value=0.0, max_value=150.0, value=55.0)
-bmi = st.number_input("**ИМТ**", min_value=0.0, max_value=100.0, value=24.0)
-alt = st.number_input("**АЛТ**", min_value=0.0, max_value=200.0, value=30.0)
-ast = st.number_input("**АСТ**", min_value=0.0, max_value=200.0, value=30.0)
-ggtp = st.number_input("**ГГТП**", min_value=0.0, max_value=200.0, value=15.0)
-
-# Collect user input
-user_values = [
-    gender_value, age, total_fat, vis_fat, skeletal_mass, bone_mass, water, metabolic_rate, chest, waist, hip, thigh,
-    bmi, alt, ast, ggtp
-]
+user_inputs = {
+    'Пол': gender_value,
+    'Возраст': st.number_input("**Возраст**", min_value=0, max_value=100, value=30),
+    'О.ж.,%': st.number_input("**О.ж.,%**", min_value=0.0, max_value=100.0, value=20.0),
+    'Висц.ж,%': st.number_input("**Висц.ж,%**", min_value=0.0, max_value=100.0, value=5.0),
+    'Скелет,%': st.number_input("**Скелет,%**", min_value=0.0, max_value=100.0, value=40.0),
+    'Кости,кг': st.number_input("**Кости,кг**", min_value=0.0, max_value=20.0, value=3.0),
+    'Вода,%': st.number_input("**Вода,%**", min_value=0.0, max_value=100.0, value=60.0),
+    'СООВ,ккал': st.number_input("**СООВ,ккал**", min_value=0.0, max_value=5000.0, value=2000.0),
+    'ОГ,см': st.number_input("**ОГ,см**", min_value=0.0, max_value=150.0, value=90.0),
+    'ОТ,см': st.number_input("**ОТ,см**", min_value=0.0, max_value=150.0, value=80.0),
+    'ОЖ,см': st.number_input("**ОЖ,см**", min_value=0.0, max_value=150.0, value=100.0),
+    'ОБ,см': st.number_input("**ОБ,см**", min_value=0.0, max_value=150.0, value=55.0),
+    'ИМТ': st.number_input("**ИМТ**", min_value=0.0, max_value=100.0, value=24.0),
+    'АЛТ': st.number_input("**АЛТ**", min_value=0.0, max_value=200.0, value=30.0),
+    'АСТ': st.number_input("**АСТ**", min_value=0.0, max_value=200.0, value=30.0),
+    'ГГТП': st.number_input("**ГГТП**", min_value=0.0, max_value=200.0, value=15.0),
+}
 
 # Predict probability and classify
 if st.button("Рассчитать Прогноз"):
-    input_array = np.array(user_values).reshape(1, -1)
+    # Ensure input order matches model's feature order
+    input_values = [user_inputs[feat] for feat in feature_names if feat in user_inputs]
+
+    # Convert to NumPy array
+    input_array = np.array(input_values).reshape(1, -1)
+
+    # Predict probability
     probability = ebm.predict_proba(input_array)[0][1]
     predicted_class = "Болен" if probability >= 0.5 else "Здоров"
 
@@ -98,7 +98,7 @@ if st.button("Рассчитать Прогноз"):
     def normalize(values, min_vals, max_vals):
         return [(val - min_val) / (max_val - min_val) for val, min_val, max_val in zip(values, min_vals, max_vals)]
 
-    normalized_user_values = normalize(user_values[1:], normal_min, normal_max)
+    normalized_user_values = normalize(input_values[1:], normal_min, normal_max)
 
     # Plot comparison graph
     fig, ax = plt.subplots(figsize=(10, 8))
