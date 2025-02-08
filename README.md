@@ -1,6 +1,6 @@
 # NAFLD Prediction App
 
-**NAFLD Prediction App** is a Streamlit-based web application that predicts the probability of Non-Alcoholic Fatty Liver Disease (НАЖБП) using a trained Explainable Boosting Machine (EBM) model.
+**NAFLD Prediction App** is a Streamlit-based web application that predicts the probability of Non-Alcoholic Fatty Liver Disease (NAFLD) using a trained Explainable Boosting Machine (EBM) model.
 
 ## Features
 - **User Input Fields**: Enter various health parameters.
