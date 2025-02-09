@@ -117,7 +117,7 @@ user_input_dict = {
 input_df = pd.DataFrame([user_input_dict])
 
 # Ensure the column order matches the model's expected features
-input_df = input_df[ebm.term_names_]
+input_df = input_df[ebm.feature_names_in_]
 
 # Convert to NumPy array
 input_array = input_df.to_numpy()
