@@ -43,6 +43,7 @@ feature_names = ebm.term_names_
 
 # Feature Translations
 feature_translations = {
+    "ИМТ": {"English": "BMI", "Русский": "ИМТ"},  # ✅ Added this missing key
     "Возраст": {"English": "Age", "Русский": "Возраст"},
     "О.ж.,%": {"English": "Total Fat %", "Русский": "Общий Жир,%"},
     "Висц.ж,%": {"English": "Visceral Fat %", "Русский": "Висц. Жир,%"},
