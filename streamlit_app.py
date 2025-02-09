@@ -122,6 +122,10 @@ input_df = input_df[ebm.term_names_]
 # Convert to NumPy array
 input_array = input_df.to_numpy()
 
+# Debugging
+print(f"✅ Model Expected Features: {ebm.feature_names_in_}")
+print(f"✅ Input Data Features: {list(input_df.columns)}")
+print(f"✅ Final input shape: {input_array.shape}")  # Must match (1, 29)
 
 # Predict probability and classify
 if st.button("Рассчитать Прогноз"):
