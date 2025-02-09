@@ -151,38 +151,6 @@ user_input_dict = {
     'Моч.к-та': st.number_input(f"**{feature_translations['Моч.к-та'][lang]}**", min_value=0.0, max_value=50.0, value=5.0)
 }
 
-user_input_dict = {
-    'Пол': gender_value,
-    'Возраст': st.number_input(f"**{feature_translations['Возраст'][lang]}**", min_value=0, max_value=100, value=50),
-    'О.ж.,%': st.number_input(f"**{feature_translations['О.ж.,%'][lang]}**", min_value=0.0, max_value=70.0, value=20.0),
-    'Висц.ж,%': st.number_input(f"**{feature_translations['Висц.ж,%'][lang]}**", min_value=0.0, max_value=50.0, value=10.0),
-    'Скелет,%': st.number_input(f"**{feature_translations['Скелет,%'][lang]}**", min_value=0.0, max_value=100.0, value=35.0),
-    'Кости,кг': st.number_input(f"**{feature_translations['Кости,кг'][lang]}**", min_value=0.0, max_value=20.0, value=3.0),
-    'Вода,%': st.number_input(f"**{feature_translations['Вода,%'][lang]}**", min_value=0.0, max_value=100.0, value=60.0),
-    'СООВ,ккал': st.number_input(f"**{feature_translations['СООВ,ккал'][lang]}**", min_value=0.0, max_value=7000.0, value=2000.0),
-    'ОГ,см': st.number_input(f"**{feature_translations['ОГ,см'][lang]}**", min_value=0.0, max_value=150.0, value=90.0),
-    'ОТ,см': st.number_input(f"**{feature_translations['ОТ,см'][lang]}**", min_value=0.0, max_value=150.0, value=80.0),
-    'ОЖ,см': st.number_input(f"**{feature_translations['ОЖ,см'][lang]}**", min_value=0.0, max_value=150.0, value=90.0),
-    'ОБ,см': st.number_input(f"**{feature_translations['ОБ,см'][lang]}**", min_value=0.0, max_value=150.0, value=50.0),
-    'ИМТ': bmi,  # BMI is auto-calculated
-    'АЛТ': st.number_input(f"**{feature_translations['АЛТ'][lang]}**", min_value=0.0, max_value=200.0, value=20.0),
-    'АСТ': st.number_input(f"**{feature_translations['АСТ'][lang]}**", min_value=0.0, max_value=200.0, value=20.0),
-    'ГГТП': st.number_input(f"**{feature_translations['ГГТП'][lang]}**", min_value=0.0, max_value=200.0, value=50.0),
-    'ЩФ': st.number_input(f"**{feature_translations['ЩФ'][lang]}**", min_value=0.0, max_value=500.0, value=80.0),
-    'ХСобщ.': st.number_input(f"**{feature_translations['ХСобщ.'][lang]}**", min_value=0.0, max_value=30.0, value=3.0),
-    'ЛПНП': st.number_input(f"**{feature_translations['ЛПНП'][lang]}**", min_value=0.0, max_value=20.0, value=2.0),
-    'ЛПВП': st.number_input(f"**{feature_translations['ЛПВП'][lang]}**", min_value=0.0, max_value=20.0, value=1.0),
-    'Триглиц.': st.number_input(f"**{feature_translations['Триглиц.'][lang]}**", min_value=0.0, max_value=50.0, value=1.5),
-    'Билир.о': st.number_input(f"**{feature_translations['Билир.о'][lang]}**", min_value=0.0, max_value=30.0, value=1.0),
-    'Билир.пр': st.number_input(f"**{feature_translations['Билир.пр'][lang]}**", min_value=0.0, max_value=30.0, value=0.5),
-    'Глюкоза': st.number_input(f"**{feature_translations['Глюкоза'][lang]}**", min_value=0.0, max_value=50.0, value=5.0),
-    'Инсулин': st.number_input(f"**{feature_translations['Инсулин'][lang]}**", min_value=0.0, max_value=100.0, value=5.0),
-    'Ферритин': st.number_input(f"**{feature_translations['Ферритин'][lang]}**", min_value=0.0, max_value=1000.0, value=150.0),
-    'СРБ': st.number_input(f"**{feature_translations['СРБ'][lang]}**", min_value=0.0, max_value=20.0, value=1.0),
-    'О.белок': st.number_input(f"**{feature_translations['О.белок'][lang]}**", min_value=0.0, max_value=20.0, value=7.0),
-    'Моч.к-та': st.number_input(f"**{feature_translations['Моч.к-та'][lang]}**", min_value=0.0, max_value=50.0, value=5.0)
-}
-
 try:
     input_df = pd.DataFrame([user_input_dict])
     input_df = input_df[ebm.feature_names_in_]
