@@ -50,7 +50,7 @@ st.write("Введите значения показателей для полу
 gender = st.radio("**Выберите пол:**", ("Мужской", "Женский"))
 gender_value = 0 if gender == "Мужской" else 1
 
-user_inputs = {
+user_input_dict = {
     'Пол': gender_value,
     'Возраст': st.number_input("**Возраст**", min_value=0, max_value=100, value=30),
     'О.ж.,%': st.number_input("**О.ж.,%**", min_value=0.0, max_value=100.0, value=20.0),
@@ -67,19 +67,70 @@ user_inputs = {
     'АЛТ': st.number_input("**АЛТ**", min_value=0.0, max_value=200.0, value=30.0),
     'АСТ': st.number_input("**АСТ**", min_value=0.0, max_value=200.0, value=30.0),
     'ГГТП': st.number_input("**ГГТП**", min_value=0.0, max_value=200.0, value=15.0),
+    'ЩФ': st.number_input("**ЩФ**", min_value=0.0, max_value=500.0, value=100.0),
+    'ХСобщ.': st.number_input("**ХСобщ.**", min_value=0.0, max_value=500.0, value=200.0),
+    'ЛПНП': st.number_input("**ЛПНП**", min_value=0.0, max_value=100.0, value=3.0),
+    'ЛПВП': st.number_input("**ЛПВП**", min_value=0.0, max_value=100.0, value=1.0),
+    'Триглиц.': st.number_input("**Триглиц.**", min_value=0.0, max_value=100.0, value=1.5),
+    'Билир.о': st.number_input("**Билир.о**", min_value=0.0, max_value=10.0, value=1.0),
+    'Билир.пр': st.number_input("**Билир.пр**", min_value=0.0, max_value=100.0, value=0.5),
+    'Глюкоза': st.number_input("**Глюкоза**", min_value=0.0, max_value=100.0, value=5.0),
+    'Инсулин': st.number_input("**Инсулин**", min_value=0.0, max_value=100.0, value=5.0),
+    'Ферритин': st.number_input("**Ферритин**", min_value=0.0, max_value=1000.0, value=50.0),
+    'СРБ': st.number_input("**СРБ**", min_value=0.0, max_value=10.0, value=1.0),
+    'О.белок': st.number_input("**О.белок**", min_value=0.0, max_value=10.0, value=7.0),
+    'Моч.к-та': st.number_input("**Моч.к-та**", min_value=0.0, max_value=100.0, value=5.0)
 }
+
+# Compute interaction terms
+user_input_dict.update({
+    'Возраст & ОГ,см': user_input_dict['Возраст'] * user_input_dict['ОГ,см'],
+    'Возраст & ОТ,см': user_input_dict['Возраст'] * user_input_dict['ОТ,см'],
+    'Возраст & ОЖ,см': user_input_dict['Возраст'] * user_input_dict['ОЖ,см'],
+    'Возраст & АЛТ': user_input_dict['Возраст'] * user_input_dict['АЛТ'],
+    'Возраст & ГГТП': user_input_dict['Возраст'] * user_input_dict['ГГТП'],
+    'Возраст & Ферритин': user_input_dict['Возраст'] * user_input_dict['Ферритин'],
+    'О.ж.,% & АЛТ': user_input_dict['О.ж.,%'] * user_input_dict['АЛТ'],
+    'О.ж.,% & Билир.о': user_input_dict['О.ж.,%'] * user_input_dict['Билир.о'],
+    'О.ж.,% & Глюкоза': user_input_dict['О.ж.,%'] * user_input_dict['Глюкоза'],
+    'Висц.ж,% & АЛТ': user_input_dict['Висц.ж,%'] * user_input_dict['АЛТ'],
+    'Висц.ж,% & СРБ': user_input_dict['Висц.ж,%'] * user_input_dict['СРБ'],
+    'Скелет,% & АЛТ': user_input_dict['Скелет,%'] * user_input_dict['АЛТ'],
+    'Скелет,% & ГГТП': user_input_dict['Скелет,%'] * user_input_dict['ГГТП'],
+    'ОГ,см & СРБ': user_input_dict['ОГ,см'] * user_input_dict['СРБ'],
+    'ОТ,см & ЩФ': user_input_dict['ОТ,см'] * user_input_dict['ЩФ'],
+    'ОТ,см & СРБ': user_input_dict['ОТ,см'] * user_input_dict['СРБ'],
+    'ОБ,см & ИМТ': user_input_dict['ОБ,см'] * user_input_dict['ИМТ'],
+    'ИМТ & АЛТ': user_input_dict['ИМТ'] * user_input_dict['АЛТ'],
+    'ИМТ & ГГТП': user_input_dict['ИМТ'] * user_input_dict['ГГТП'],
+    'ИМТ & ЛПВП': user_input_dict['ИМТ'] * user_input_dict['ЛПВП'],
+    'ИМТ & Инсулин': user_input_dict['ИМТ'] * user_input_dict['Инсулин'],
+    'АЛТ & Билир.о': user_input_dict['АЛТ'] * user_input_dict['Билир.о'],
+    'АЛТ & О.белок': user_input_dict['АЛТ'] * user_input_dict['О.белок'],
+    'АСТ & ГГТП': user_input_dict['АСТ'] * user_input_dict['ГГТП'],
+    'ГГТП & Билир.о': user_input_dict['ГГТП'] * user_input_dict['Билир.о'],
+    'ГГТП & Билир.пр': user_input_dict['ГГТП'] * user_input_dict['Билир.пр'],
+    'ЛПНП & Билир.пр': user_input_dict['ЛПНП'] * user_input_dict['Билир.пр']
+})
+
+# Convert input dictionary to DataFrame
+input_df = pd.DataFrame([user_input_dict])
+
+# Ensure the column order matches the model's expected features
+input_df = input_df[ebm.term_names_]
+
+# Convert to NumPy array
+input_array = input_df.to_numpy()
+
 
 # Predict probability and classify
 if st.button("Рассчитать Прогноз"):
-    # Ensure input order matches model's feature order
-    input_values = [user_inputs[feat] for feat in feature_names if feat in user_inputs]
-
-    # Convert to NumPy array
-    input_array = np.array(input_values).reshape(1, -1)
-
-    # Predict probability
-    probability = ebm.predict_proba(input_array)[0][1]
-    predicted_class = "Болен" if probability >= 0.5 else "Здоров"
+    try:
+        probability = ebm.predict_proba(input_array)[0][1]
+        predicted_class = "Болен" if probability >= 0.5 else "Здоров"
+        st.success(f"Вероятность: {probability:.4f} ({predicted_class})")
+    except Exception as e:
+        st.error(f"Ошибка: {e}")
 
     st.subheader("**Результаты Прогноза:**")
     st.write(f"**Вероятность:** {probability:.4f}")
