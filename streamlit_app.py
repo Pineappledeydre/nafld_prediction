@@ -41,6 +41,38 @@ translations = {
 # Extract expected feature names from the model
 feature_names = ebm.term_names_
 
+# Feature Translations
+feature_translations = {
+    "Возраст": {"English": "Age", "Русский": "Возраст"},
+    "О.ж.,%": {"English": "Total Fat %", "Русский": "Общий Жир,%"},
+    "Висц.ж,%": {"English": "Visceral Fat %", "Русский": "Висц. Жир,%"},
+    "Скелет,%": {"English": "Skeletal %", "Русский": "Скелет %"},
+    "Кости,кг": {"English": "Bone Mass (kg)", "Русский": "Кости,кг"},
+    "Вода,%": {"English": "Water %", "Русский": "Вода,%"},
+    "СООВ,ккал": {"English": "Metabolic Rate (kcal)", "Русский": "Скорость Обмена Веществ,ккал"},
+    "ОГ,см": {"English": "Chest Circumference", "Русский": "Обхват Груди,см"},
+    "ОТ,см": {"English": "Waist Circumference", "Русский": "Обхват Талии,см"},
+    "ОЖ,см": {"English": "Hip Circumference", "Русский": "Обхват Живота,см"},
+    "ОБ,см": {"English": "Thigh Circumference", "Русский": "Обхват Бедра,см"},
+    "АЛТ": {"English": "ALT", "Русский": "АЛТ"},
+    "АСТ": {"English": "AST", "Русский": "АСТ"},
+    "ГГТП": {"English": "GGT", "Русский": "ГГТП"},
+    "ЩФ": {"English": "ALP", "Русский": "ЩФ"},
+    "ХСобщ.": {"English": "Total Cholesterol", "Русский": "Холестерин Общ."},
+    "ЛПНП": {"English": "LDL", "Русский": "ЛПНП"},
+    "ЛПВП": {"English": "HDL", "Русский": "ЛПВП"},
+    "Триглиц.": {"English": "Triglycerides", "Русский": "Триглиц."},
+    "Билир.о": {"English": "Bilirubin (Total)", "Русский": "Билир. Общ."},
+    "Билир.пр": {"English": "Bilirubin (Direct)", "Русский": "Билир. Прямой"},
+    "Глюкоза": {"English": "Glucose", "Русский": "Глюкоза"},
+    "Инсулин": {"English": "Insulin", "Русский": "Инсулин"},
+    "Ферритин": {"English": "Ferritin", "Русский": "Ферритин"},
+    "СРБ": {"English": "CRP", "Русский": "СРБ"},
+    "О.белок": {"English": "Total Protein", "Русский": "Общий Белок"},
+    "Моч.к-та": {"English": "Uric Acid", "Русский": "Моч.К-та"},
+}
+
+
 # Normal ranges for reference
 normal_ranges = {
     'Пол': (0, 1),  # Binary: 0 (Мужской), 1 (Женский)
