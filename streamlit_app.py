@@ -18,7 +18,7 @@ lang = st.radio("🌍 **Select Language / Выберите язык:**", ("Engli
 
 # Translations
 translations = {
-    "title": {"English": "💉 NAFLD Prediction", "Русский": "💉 Прогноз НАЖБП"},
+    "title": {"English": "NAFLD Prediction", "Русский": "Прогноз НАЖБП"},
     "desc": {
         "English": "Enter your health data to predict the probability of NAFLD.",
         "Русский": "Введите значения показателей для получения прогноза вероятности НАЖБП.",
