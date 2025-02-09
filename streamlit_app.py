@@ -100,11 +100,11 @@ normal_ranges = {
     'Билир.о': (0, 1.2),
     'Билир.пр': (0, 0.3),
     'Глюкоза': (3.9, 5.5),
-    'Инсулин': (2.0, 25.0),  # Missing before
-    'Ферритин': (15, 300),  # Missing before
-    'СРБ': (0, 3),  # Missing before
-    'О.белок': (6.0, 8.5),  # Missing before
-    'Моч.к-та': (2.4, 7.0)  # Missing before
+    'Инсулин': (2.0, 26.0),  # Missing before
+    'Ферритин': (10.0, 250.0),  # Missing before
+    'СРБ': (0.0, 5.0),  # Missing before
+    'О.белок': (55.0, 81.0),  # Missing before
+    'Моч.к-та': (120.0, 420.0)  # Missing before
 }
 
 # Streamlit UI
