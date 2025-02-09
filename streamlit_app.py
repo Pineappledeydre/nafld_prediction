@@ -202,6 +202,8 @@ if st.button(translations["calculate"][lang]):
     fig, ax = plt.subplots(figsize=(10, 8))
 
     # Plot normal range bars
+normal_range_added = False  
+
     for i, (min_val, max_val) in enumerate(zip([0] * len(normal_min), [1] * len(normal_max))):
         ax.barh(
             i, 
@@ -209,10 +211,10 @@ if st.button(translations["calculate"][lang]):
             left=min_val, 
             color='gray', 
             alpha=0.5, 
-            label="Normal Range" if lang == "English" else "Норма" if i == 0 else "", 
+            label=("Normal Range" if lang == "English" else "Норма") if not normal_range_added else "", 
             height=0.5
         )
-
+        normal_range_added = True  # Ensure the label is added only once
     # Plot user values
     for i, value in enumerate(normalized_user_values):
         ax.scatter(value, i, color='blue', s=100, zorder=5)
