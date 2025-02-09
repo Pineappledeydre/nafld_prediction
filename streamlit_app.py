@@ -74,6 +74,36 @@ normal_ranges = {
     'Моч.к-та': (2.4, 7.0)  # Missing before
 }
 
+feature_translations = {
+    "ИМТ": {"English": "BMI", "Русский": "ИМТ"},
+    "О.ж.,%": {"English": "Total Fat %", "Русский": "Общий Жир,%"},
+    "Висц.ж,%": {"English": "Visceral Fat %", "Русский": "Висц. Жир,%"},
+    "Скелет,%": {"English": "Skeletal %", "Русский": "Скелет %"},
+    "Кости,кг": {"English": "Bone Mass (kg)", "Русский": "Кости,кг"},
+    "Вода,%": {"English": "Water %", "Русский": "Вода,%"},
+    "СООВ,ккал": {"English": "Metabolic Rate (kcal)", "Русский": "Скорость Обмена Веществ,ккал"},
+    "ОГ,см": {"English": "Chest Circumference", "Русский": "Обхват Груди,см"},
+    "ОТ,см": {"English": "Waist Circumference", "Русский": "Обхват Талии,см"},
+    "ОЖ,см": {"English": "Hip Circumference", "Русский": "Обхват Живота,см"},
+    "ОБ,см": {"English": "Thigh Circumference", "Русский": "Обхват Бедра,см"},
+    "АЛТ": {"English": "ALT", "Русский": "АЛТ"},
+    "АСТ": {"English": "AST", "Русский": "АСТ"},
+    "ГГТП": {"English": "GGT", "Русский": "ГГТП"},
+    "ЩФ": {"English": "ALP", "Русский": "ЩФ"},
+    "ХСобщ.": {"English": "Total Cholesterol", "Русский": "Холестерин Общ."},
+    "ЛПНП": {"English": "LDL", "Русский": "ЛПНП"},
+    "ЛПВП": {"English": "HDL", "Русский": "ЛПВП"},
+    "Триглиц.": {"English": "Triglycerides", "Русский": "Триглиц."},
+    "Билир.о": {"English": "Bilirubin (Total)", "Русский": "Билир. Общ."},
+    "Билир.пр": {"English": "Bilirubin (Direct)", "Русский": "Билир. Прямой"},
+    "Глюкоза": {"English": "Glucose", "Русский": "Глюкоза"},
+    "Инсулин": {"English": "Insulin", "Русский": "Инсулин"},
+    "Ферритин": {"English": "Ferritin", "Русский": "Ферритин"},
+    "СРБ": {"English": "CRP", "Русский": "СРБ"},
+    "О.белок": {"English": "Total Protein", "Русский": "Общий Белок"},
+    "Моч.к-та": {"English": "Uric Acid", "Русский": "Моч.К-та"},
+}
+
 # Streamlit UI
 st.title(translations["title"][lang])
 st.write(translations["desc"][lang])
@@ -123,7 +153,6 @@ user_input_dict = {
 # Convert input dictionary to DataFrame
 input_df = pd.DataFrame([user_input_dict])
 input_df = input_df[ebm.feature_names_in_]
-# Convert to NumPy array
 input_array = input_df.to_numpy()
 
 # Debugging
@@ -149,34 +178,41 @@ if st.button(translations["calculate"][lang]):
     else:
         st.success(translations["success"][lang])
 
-    # Normalize user values for comparison
-    feature_keys = list(normal_ranges.keys())
-    normal_min = [normal_ranges[key][0] for key in feature_keys]
-    normal_max = [normal_ranges[key][1] for key in feature_keys]
+    # Normalize user values for comparison (excluding Gender and Age)
+    plot_features = [key for key in normal_ranges.keys() if key not in ["Пол", "Возраст"]]  # Exclude "Пол" (Gender) & "Возраст" (Age)
+    normal_min = [normal_ranges[key][0] for key in plot_features]
+    normal_max = [normal_ranges[key][1] for key in plot_features]
+    user_values = [user_input_dict[key] for key in plot_features]  # Get user-entered values
 
+    # Normalize function
     def normalize(values, min_vals, max_vals):
-        return [(val - min_val) / (max_val - min_val) for val, min_val, max_val in zip(values, min_vals, max_vals)]
+        return [(val - min_val) / (max_val - min_val) if max_val != min_val else 0 for val, min_val, max_val in zip(values, min_vals, max_vals)]
 
-    normalized_user_values = normalize(input_df.iloc[0].values, normal_min, normal_max)
+    normalized_user_values = normalize(user_values, normal_min, normal_max)
+
     # Plot comparison graph
     fig, ax = plt.subplots(figsize=(10, 8))
 
+    # Plot normal range bars
     for i, (min_val, max_val) in enumerate(zip([0] * len(normal_min), [1] * len(normal_max))):
         ax.barh(i, max_val - min_val, left=min_val, color='gray', alpha=0.5, label='Норма' if i == 0 else "", height=0.5)
 
+    # Plot user values
     for i, value in enumerate(normalized_user_values):
         ax.scatter(value, i, color='blue', s=100, zorder=5, label='Ваше значение' if i == 0 else "")
 
-    ax.set_xlim([-0.5, 1.5])
-    ax.get_xaxis().set_visible(False)
-    ax.set_xlabel('Нормализованные значения (0-1)', fontsize=12, fontweight='bold')
-    ax.set_title('Сравнение показателей с нормальными диапазонами', fontsize=14, fontweight='bold')
+    # Translate feature labels
+    translated_labels = [feature_translations[feat][lang] for feat in plot_features]
 
-    ax.set_yticks(range(len(feature_keys)))
-    ax.set_yticklabels(feature_keys, fontsize=11, fontweight='bold')
+    # Formatting
+    ax.set_xlim([-0.1, 1.1])
+    ax.get_xaxis().set_visible(False)
+    ax.set_xlabel(translations["probability"][lang], fontsize=12, fontweight='bold')
+    ax.set_title(translations["title"][lang], fontsize=14, fontweight='bold')
+    ax.set_yticks(range(len(plot_features)))
+    ax.set_yticklabels(translated_labels, fontsize=11, fontweight='bold')
 
     ax.legend(loc='upper left', fontsize=10)
-    plt.show()
-
     st.pyplot(fig)
+
 
