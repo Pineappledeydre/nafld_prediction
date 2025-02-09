@@ -150,6 +150,8 @@ user_input_dict = {
     'О.белок': st.number_input(f"**{feature_translations['О.белок'][lang]}**", min_value=0.0, max_value=20.0, value=7.0),
     'Моч.к-та': st.number_input(f"**{feature_translations['Моч.к-та'][lang]}**", min_value=0.0, max_value=50.0, value=5.0)
 }
+user_input_dict['ИМТ'] = bmi  # BMI is auto-calculated
+
 
 try:
     input_df = pd.DataFrame([user_input_dict])
