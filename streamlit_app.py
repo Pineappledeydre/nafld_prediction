@@ -202,7 +202,7 @@ if st.button(translations["calculate"][lang]):
     fig, ax = plt.subplots(figsize=(10, 8))
 
     # Plot normal range bars
-normal_range_added = False  
+    normal_range_added = False  
 
     for i, (min_val, max_val) in enumerate(zip([0] * len(normal_min), [1] * len(normal_max))):
         ax.barh(
