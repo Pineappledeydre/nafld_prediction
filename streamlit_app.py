@@ -83,35 +83,35 @@ user_input_dict = {
 }
 
 # Compute interaction terms
-user_input_dict.update({
-    'Возраст & ОГ,см': user_input_dict['Возраст'] * user_input_dict['ОГ,см'],
-    'Возраст & ОТ,см': user_input_dict['Возраст'] * user_input_dict['ОТ,см'],
-    'Возраст & ОЖ,см': user_input_dict['Возраст'] * user_input_dict['ОЖ,см'],
-    'Возраст & АЛТ': user_input_dict['Возраст'] * user_input_dict['АЛТ'],
-    'Возраст & ГГТП': user_input_dict['Возраст'] * user_input_dict['ГГТП'],
-    'Возраст & Ферритин': user_input_dict['Возраст'] * user_input_dict['Ферритин'],
-    'О.ж.,% & АЛТ': user_input_dict['О.ж.,%'] * user_input_dict['АЛТ'],
-    'О.ж.,% & Билир.о': user_input_dict['О.ж.,%'] * user_input_dict['Билир.о'],
-    'О.ж.,% & Глюкоза': user_input_dict['О.ж.,%'] * user_input_dict['Глюкоза'],
-    'Висц.ж,% & АЛТ': user_input_dict['Висц.ж,%'] * user_input_dict['АЛТ'],
-    'Висц.ж,% & СРБ': user_input_dict['Висц.ж,%'] * user_input_dict['СРБ'],
-    'Скелет,% & АЛТ': user_input_dict['Скелет,%'] * user_input_dict['АЛТ'],
-    'Скелет,% & ГГТП': user_input_dict['Скелет,%'] * user_input_dict['ГГТП'],
-    'ОГ,см & СРБ': user_input_dict['ОГ,см'] * user_input_dict['СРБ'],
-    'ОТ,см & ЩФ': user_input_dict['ОТ,см'] * user_input_dict['ЩФ'],
-    'ОТ,см & СРБ': user_input_dict['ОТ,см'] * user_input_dict['СРБ'],
-    'ОБ,см & ИМТ': user_input_dict['ОБ,см'] * user_input_dict['ИМТ'],
-    'ИМТ & АЛТ': user_input_dict['ИМТ'] * user_input_dict['АЛТ'],
-    'ИМТ & ГГТП': user_input_dict['ИМТ'] * user_input_dict['ГГТП'],
-    'ИМТ & ЛПВП': user_input_dict['ИМТ'] * user_input_dict['ЛПВП'],
-    'ИМТ & Инсулин': user_input_dict['ИМТ'] * user_input_dict['Инсулин'],
-    'АЛТ & Билир.о': user_input_dict['АЛТ'] * user_input_dict['Билир.о'],
-    'АЛТ & О.белок': user_input_dict['АЛТ'] * user_input_dict['О.белок'],
-    'АСТ & ГГТП': user_input_dict['АСТ'] * user_input_dict['ГГТП'],
-    'ГГТП & Билир.о': user_input_dict['ГГТП'] * user_input_dict['Билир.о'],
-    'ГГТП & Билир.пр': user_input_dict['ГГТП'] * user_input_dict['Билир.пр'],
-    'ЛПНП & Билир.пр': user_input_dict['ЛПНП'] * user_input_dict['Билир.пр']
-})
+# user_input_dict.update({
+#     'Возраст & ОГ,см': user_input_dict['Возраст'] * user_input_dict['ОГ,см'],
+#     'Возраст & ОТ,см': user_input_dict['Возраст'] * user_input_dict['ОТ,см'],
+#     'Возраст & ОЖ,см': user_input_dict['Возраст'] * user_input_dict['ОЖ,см'],
+#     'Возраст & АЛТ': user_input_dict['Возраст'] * user_input_dict['АЛТ'],
+#     'Возраст & ГГТП': user_input_dict['Возраст'] * user_input_dict['ГГТП'],
+#     'Возраст & Ферритин': user_input_dict['Возраст'] * user_input_dict['Ферритин'],
+#     'О.ж.,% & АЛТ': user_input_dict['О.ж.,%'] * user_input_dict['АЛТ'],
+#     'О.ж.,% & Билир.о': user_input_dict['О.ж.,%'] * user_input_dict['Билир.о'],
+#     'О.ж.,% & Глюкоза': user_input_dict['О.ж.,%'] * user_input_dict['Глюкоза'],
+#     'Висц.ж,% & АЛТ': user_input_dict['Висц.ж,%'] * user_input_dict['АЛТ'],
+#     'Висц.ж,% & СРБ': user_input_dict['Висц.ж,%'] * user_input_dict['СРБ'],
+#     'Скелет,% & АЛТ': user_input_dict['Скелет,%'] * user_input_dict['АЛТ'],
+#     'Скелет,% & ГГТП': user_input_dict['Скелет,%'] * user_input_dict['ГГТП'],
+#     'ОГ,см & СРБ': user_input_dict['ОГ,см'] * user_input_dict['СРБ'],
+#     'ОТ,см & ЩФ': user_input_dict['ОТ,см'] * user_input_dict['ЩФ'],
+#     'ОТ,см & СРБ': user_input_dict['ОТ,см'] * user_input_dict['СРБ'],
+#     'ОБ,см & ИМТ': user_input_dict['ОБ,см'] * user_input_dict['ИМТ'],
+#     'ИМТ & АЛТ': user_input_dict['ИМТ'] * user_input_dict['АЛТ'],
+#     'ИМТ & ГГТП': user_input_dict['ИМТ'] * user_input_dict['ГГТП'],
+#     'ИМТ & ЛПВП': user_input_dict['ИМТ'] * user_input_dict['ЛПВП'],
+#     'ИМТ & Инсулин': user_input_dict['ИМТ'] * user_input_dict['Инсулин'],
+#     'АЛТ & Билир.о': user_input_dict['АЛТ'] * user_input_dict['Билир.о'],
+#     'АЛТ & О.белок': user_input_dict['АЛТ'] * user_input_dict['О.белок'],
+#     'АСТ & ГГТП': user_input_dict['АСТ'] * user_input_dict['ГГТП'],
+#     'ГГТП & Билир.о': user_input_dict['ГГТП'] * user_input_dict['Билир.о'],
+#     'ГГТП & Билир.пр': user_input_dict['ГГТП'] * user_input_dict['Билир.пр'],
+#     'ЛПНП & Билир.пр': user_input_dict['ЛПНП'] * user_input_dict['Билир.пр']
+# })
 
 # Convert input dictionary to DataFrame
 input_df = pd.DataFrame([user_input_dict])
