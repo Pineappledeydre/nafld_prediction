@@ -5,6 +5,8 @@ import pickle
 import pandas as pd
 from interpret.glassbox import ExplainableBoostingClassifier
 
+st.set_page_config(page_title="💉 NAFLD Prediction / Прогноз НАЖБП", page_icon="💉", layout="wide")
+
 # Load the trained EBM model
 MODEL_PATH = "models/ebm_model.pkl"
 
@@ -73,7 +75,6 @@ normal_ranges = {
 }
 
 # Streamlit UI
-st.set_page_config(page_title=translations["title"][lang], page_icon="💉", layout="wide")
 st.title(translations["title"][lang])
 st.write(translations["desc"][lang])
 
@@ -126,9 +127,9 @@ input_df = input_df[ebm.feature_names_in_]
 input_array = input_df.to_numpy()
 
 # Debugging
-print(f"✅ Model Expected Features: {ebm.feature_names_in_}")
-print(f"✅ Input Data Features: {list(input_df.columns)}")
-print(f"✅ Final input shape: {input_array.shape}")  # Must match (1, 29)
+# print(f"Model Expected Features: {ebm.feature_names_in_}")
+# print(f"Input Data Features: {list(input_df.columns)}")
+# print(f"Final input shape: {input_array.shape}")  # Must match (1, 29)
 
 # Predict probability and classify
 if st.button(translations["calculate"][lang]):
