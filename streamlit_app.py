@@ -5,7 +5,7 @@ import pickle
 import pandas as pd
 from interpret.glassbox import ExplainableBoostingClassifier
 
-st.set_page_config(page_title="💉 NAFLD Prediction / Прогноз НАЖБП", page_icon="💉", layout="wide")
+st.set_page_config(page_title="NAFLD Prediction / Прогноз НАЖБП", page_icon="💉", layout="wide")
 
 # Load the trained EBM model
 MODEL_PATH = "models/ebm_model.pkl"
@@ -36,6 +36,7 @@ translations = {
     "sick": {"English": "Sick", "Русский": "Болен"},
     "alert": {"English": "🚨 Model predicts that you are sick.", "Русский": "🚨 Модель предсказывает, что вы больны."},
     "success": {"English": "✅ Model predicts that you are healthy.", "Русский": "✅ Модель предсказывает, что вы здоровы."},
+    "prediction results": {"English": "Prediction Results", "Русский": "Результаты Прогноза "}
 }
 
 # Extract expected feature names from the model
@@ -176,7 +177,7 @@ if st.button(translations["calculate"][lang]):
     except Exception as e:
         st.error(f"Ошибка / Error: {e}")
 
-    st.subheader("**Результаты Прогноза / Prediction Results:**")
+    st.subheader(translations["prediction results"][lang])
     st.write(f"**{translations['probability'][lang]}:** {probability:.4f}")
     st.write(f"**{translations['class'][lang]}:** {predicted_class}")
 
@@ -202,11 +203,22 @@ if st.button(translations["calculate"][lang]):
 
     # Plot normal range bars
     for i, (min_val, max_val) in enumerate(zip([0] * len(normal_min), [1] * len(normal_max))):
-        ax.barh(i, max_val - min_val, left=min_val, color='gray', alpha=0.5, label='Норма' if i == 0 else "", height=0.5)
+        ax.barh(
+            i, 
+            max_val - min_val, 
+            left=min_val, 
+            color='gray', 
+            alpha=0.5, 
+            label="Normal Range" if lang == "English" else "Норма" if i == 0 else "", 
+            height=0.5
+        )
 
     # Plot user values
     for i, value in enumerate(normalized_user_values):
-        ax.scatter(value, i, color='blue', s=100, zorder=5, label='Ваше значение' if i == 0 else "")
+        ax.scatter(value, i, color='blue', s=100, zorder=5)
+
+    # Add only ONE legend entry for 'Your Value' / 'Ваше значение'
+    ax.scatter([], [], color='blue', s=100, label="Your Value" if lang == "English" else "Ваше значение")
 
     # Translate feature labels
     translated_labels = [feature_translations[feat][lang] for feat in plot_features]
