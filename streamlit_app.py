@@ -185,8 +185,8 @@ extra_features = csv_features - model_features
 
 if missing_features:
     st.warning(f"⚠️ Missing features in CSV: {missing_features}")
-if extra_features:
-    st.warning(f"⚠️ Extra features in CSV that model doesn't expect: {extra_features}")
+# if extra_features:
+#     st.warning(f"⚠️ Extra features in CSV that model doesn't expect: {extra_features}")
 
 # Predict probability and classify
 if st.button(translations["calculate"][lang]):
