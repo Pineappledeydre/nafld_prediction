@@ -16,13 +16,14 @@ with open(MODEL_PATH, "rb") as file:
     
 # Load feature min/max values from CSV
 feature_min_max_df = pd.read_csv(FEATURES_PATH)
+feature_min_max_df["Feature"] = feature_min_max_df["Feature"].str.strip().str.replace('"', '')
 feature_min = feature_min_max_df.set_index("Feature")["Min"].to_dict()
 feature_max = feature_min_max_df.set_index("Feature")["Max"].to_dict()
 
 # Min-Max Scaler function
 def min_max_scaler(value, feature_name):
-    min_val = feature_min.get(feature_name, 0)  # Default 0 if missing
-    max_val = feature_max.get(feature_name, 1)  # Default 1 if missing
+    min_val = feature_min.get(feature_name, 0)  # Default to 0 if missing
+    max_val = feature_max.get(feature_name, 1)  # Default to 1 if missing
     return (value - min_val) / (max_val - min_val) if max_val != min_val else 0
 
 # Language Selection
@@ -175,10 +176,17 @@ except KeyError as e:
     st.error(f"Missing required features: {e}")
     st.stop()
 
-# Debugging
-# print(f"Model Expected Features: {ebm.feature_names_in_}")
-# print(f"Input Data Features: {list(input_df.columns)}")
-# print(f"Final input shape: {input_array.shape}")  # Must match (1, 29)
+# Check if all features exist in the model
+model_features = set(ebm.feature_names_in_)
+csv_features = set(feature_min.keys())
+
+missing_features = model_features - csv_features
+extra_features = csv_features - model_features
+
+if missing_features:
+    st.warning(f"⚠️ Missing features in CSV: {missing_features}")
+if extra_features:
+    st.warning(f"⚠️ Extra features in CSV that model doesn't expect: {extra_features}")
 
 # Predict probability and classify
 if st.button(translations["calculate"][lang]):
