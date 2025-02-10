@@ -9,9 +9,21 @@ st.set_page_config(page_title="NAFLD Prediction / Прогноз НАЖБП", pa
 
 # Load the trained EBM model
 MODEL_PATH = "models/ebm_model.pkl"
+FEATURES_PATH = "data/feature_min_max_values.csv"
 
 with open(MODEL_PATH, "rb") as file:
     ebm = pickle.load(file)
+    
+# Load feature min/max values from CSV
+feature_min_max_df = pd.read_csv(FEATURES_PATH)
+feature_min = feature_min_max_df.set_index("Feature")["Min"].to_dict()
+feature_max = feature_min_max_df.set_index("Feature")["Max"].to_dict()
+
+# Min-Max Scaler function
+def min_max_scaler(value, feature_name):
+    min_val = feature_min.get(feature_name, 0)  # Default 0 if missing
+    max_val = feature_max.get(feature_name, 1)  # Default 1 if missing
+    return (value - min_val) / (max_val - min_val) if max_val != min_val else 0
 
 # Language Selection
 lang = st.radio("🌍 **Select Language / Выберите язык:**", ("English", "Русский"))
@@ -153,10 +165,10 @@ user_input_dict = {
     'Моч.к-та': st.number_input(f"**{feature_translations['Моч.к-та'][lang]}**", min_value=0.0, max_value=600.0, value=200.0)
 }
 user_input_dict['ИМТ'] = bmi  # BMI is auto-calculated
-
+scaled_input_dict = {feature: min_max_scaler(value, feature) for feature, value in user_input_dict.items()}
 
 try:
-    input_df = pd.DataFrame([user_input_dict])
+    input_df = pd.DataFrame([scaled_input_dict])
     input_df = input_df[ebm.feature_names_in_]
     input_array = input_df.to_numpy()
 except KeyError as e:
