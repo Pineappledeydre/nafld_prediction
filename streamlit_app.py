@@ -90,23 +90,47 @@ if st.button(translations["calculate"][lang]):
     except Exception as e:
         st.error(f"🚨 Error: {e}")
 
-# 📌 **Feature Importance Visualization**
-st.subheader("🔍 Feature Importance in NAFLD Prediction")
+# 📌 **Feature Importance & Patient Value Visualization**
+st.subheader("📊 NAFLD Risk Markers – Normal Ranges vs. Your Values")
 
-# Get global explanations from EBM
-ebm_global = ebm.explain_global()
+# Define reference ranges for key biomarkers (adjust values as needed)
+reference_ranges = {
+    "Visceral Fat (%)": (5, 15),
+    "ALT": (7, 41),
+    "AST": (10, 40),
+    "GGT": (10, 70),
+    "BMI": (18.5, 24.9),
+    "CRP": (0.0, 5.0),
+    "Body Fat (%)": (10, 25),
+    "LDL": (0, 3.0),
+    "Ferritin": (10, 250),
+    "Skeleton (%)": (30, 40),
+    "Triglycerides": (0, 1.7),
+    "Insulin": (2.0, 26.0),
+    "Glucose": (3.9, 5.5)
+}
 
-# Extract feature names & importance scores
-feature_importance = pd.DataFrame({
-    "Feature": ebm_global.data()["names"],
-    "Importance": ebm_global.data()["scores"]
-}).sort_values(by="Importance", ascending=False)
+# Convert patient input into a list
+patient_values = [user_input_dict[feat] for feat in reference_ranges.keys()]
+min_values = [reference_ranges[feat][0] for feat in reference_ranges.keys()]
+max_values = [reference_ranges[feat][1] for feat in reference_ranges.keys()]
 
-# 📊 Plot feature importance
-fig, ax = plt.subplots(figsize=(8, 6))
-ax.barh(feature_importance["Feature"], feature_importance["Importance"], color="skyblue")
-ax.set_xlabel("Importance Score")
-ax.set_ylabel("Feature")
-ax.set_title("Feature Importance in NAFLD Prediction")
-ax.invert_yaxis()
+# 📊 Plot reference ranges and patient values
+fig, ax = plt.subplots(figsize=(10, 8))
+
+# Plot normal range bars
+for i, (min_val, max_val) in enumerate(zip(min_values, max_values)):
+    ax.barh(i, max_val - min_val, left=min_val, color="gray", alpha=0.4, height=0.5, label="Normal Range" if i == 0 else "")
+
+# Plot patient values as blue dots
+ax.scatter(patient_values, range(len(reference_ranges)), color="blue", s=100, label="Your Value")
+
+# Format chart
+ax.set_yticks(range(len(reference_ranges)))
+ax.set_yticklabels(list(reference_ranges.keys()), fontsize=11)
+ax.set_xlabel("Value")
+ax.set_title("Comparison of Your Values with Normal Ranges", fontsize=14, fontweight="bold")
+ax.legend()
+ax.set_xlim([0, max(max_values) * 1.1])  # Slightly extend x-axis
+
 st.pyplot(fig)
