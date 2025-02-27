@@ -143,7 +143,7 @@ for i, value in enumerate(normalized_patient_values):
 
 ax.set_yticks(range(len(reference_ranges)))
 ax.set_yticklabels(translated_labels, fontsize=11)
-ax.set_xlabel("Normalized Value (0 to 1, Extreme Values Shown)" if lang == "English" else "Нормализованное значение (0 до 1, экстремальные значения видны)")
+ax.set_xlabel("Normalized Value" if lang == "English" else "Нормализованное значение")
 ax.set_title("Comparison of Your Values with Normal Ranges" if lang == "English" else "Сравнение Ваших значений с нормой", fontsize=14, fontweight="bold")
 ax.legend()
 ax.set_xlim([x_min, x_max])  
