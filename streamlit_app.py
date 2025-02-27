@@ -127,30 +127,36 @@ feature_translations = {
     "Glucose": {"English": "Glucose", "Русский": "Глюкоза"}
 }
 
-# Convert patient input into a list
+# Function to normalize values (0 to 1 scale)
+def normalize(value, min_val, max_val):
+    return (value - min_val) / (max_val - min_val) if max_val != min_val else 0.5  # Default to middle if range is zero
+
+# Convert patient input into a list & normalize values
 patient_values = [user_input_dict[feat] for feat in reference_ranges.keys()]
 min_values = [reference_ranges[feat][0] for feat in reference_ranges.keys()]
 max_values = [reference_ranges[feat][1] for feat in reference_ranges.keys()]
+normalized_patient_values = [normalize(value, min_val, max_val) for value, min_val, max_val in zip(patient_values, min_values, max_values)]
 
 # Get translated feature names
 translated_labels = [feature_translations[feat][lang] for feat in reference_ranges.keys()]
 
-# 📊 Plot reference ranges and patient values
+# 📊 Plot normalized values vs. normal range
 fig, ax = plt.subplots(figsize=(10, 8))
 
-# Plot normal range bars
-for i, (min_val, max_val) in enumerate(zip(min_values, max_values)):
-    ax.barh(i, max_val - min_val, left=min_val, color="gray", alpha=0.4, height=0.5, label=("Normal Range" if lang == "English" else "Норма") if i == 0 else "")
+# Plot normal range bars (all in range 0-1)
+for i in range(len(reference_ranges)):
+    ax.barh(i, 1, left=0, color="gray", alpha=0.4, height=0.5, label=("Normal Range" if lang == "English" else "Норма") if i == 0 else "")
 
 # Plot patient values as blue dots
-ax.scatter(patient_values, range(len(reference_ranges)), color="blue", s=100, label=("Your Value" if lang == "English" else "Ваше значение"))
+ax.scatter(normalized_patient_values, range(len(reference_ranges)), color="blue", s=100, label=("Your Value" if lang == "English" else "Ваше значение"))
 
 # Format chart
 ax.set_yticks(range(len(reference_ranges)))
 ax.set_yticklabels(translated_labels, fontsize=11)
-ax.set_xlabel("Value" if lang == "English" else "Значение")
+ax.set_xlabel("Normalized Value (0 to 1)" if lang == "English" else "Нормализованное значение (0 до 1)")
 ax.set_title("Comparison of Your Values with Normal Ranges" if lang == "English" else "Сравнение Ваших значений с нормой", fontsize=14, fontweight="bold")
 ax.legend()
-ax.set_xlim([0, max(max_values) * 1.1])  # Slightly extend x-axis
+ax.set_xlim([-0.1, 1.1])  # Extend beyond 0-1 slightly for clarity
 
 st.pyplot(fig)
+
