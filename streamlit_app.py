@@ -93,21 +93,20 @@ if st.button(translations["calculate"][lang]):
 # 📌 **Feature Importance Visualization**
 st.subheader("🔍 Feature Importance in NAFLD Prediction")
 
-# 📊 Display feature importance from EBM (including interactions)
-feature_importance = {
-    "Feature": ebm.term_names_,
-    "Importance": ebm.feature_importances_
-}
-importance_df = pd.DataFrame(feature_importance).sort_values(by="Importance", ascending=False)
+# Get global explanations from EBM
+ebm_global = ebm.explain_global()
+
+# Extract feature names & importance scores
+feature_importance = pd.DataFrame({
+    "Feature": ebm_global.data()["names"],
+    "Importance": ebm_global.data()["scores"]
+}).sort_values(by="Importance", ascending=False)
 
 # 📊 Plot feature importance
 fig, ax = plt.subplots(figsize=(8, 6))
-ax.barh(importance_df["Feature"], importance_df["Importance"], color="skyblue")
+ax.barh(feature_importance["Feature"], feature_importance["Importance"], color="skyblue")
 ax.set_xlabel("Importance Score")
 ax.set_ylabel("Feature")
 ax.set_title("Feature Importance in NAFLD Prediction")
 ax.invert_yaxis()
 st.pyplot(fig)
-
-# 📌 **Final Notes**
-st.write("📌 **This model is designed for research purposes and should not be used for medical diagnosis. Consult a healthcare professional for medical advice.**")
