@@ -140,6 +140,14 @@ normalized_patient_values = [normalize(value, min_val, max_val) for value, min_v
 # Get translated feature names
 translated_labels = [feature_translations[feat][lang] for feat in reference_ranges.keys()]
 
+# Find max and min normalized values to adjust the X-axis dynamically
+min_scaled_value = min(normalized_patient_values)
+max_scaled_value = max(normalized_patient_values)
+
+# Extend X-axis limits to show extreme values
+x_min = min(0, min_scaled_value - 0.2)  # Extend to the left if extreme low values exist
+x_max = max(1.1, max_scaled_value + 0.2)  # Extend to the right if extreme high values exist
+
 # 📊 Plot normalized values vs. normal range
 fig, ax = plt.subplots(figsize=(10, 8))
 
@@ -147,16 +155,17 @@ fig, ax = plt.subplots(figsize=(10, 8))
 for i in range(len(reference_ranges)):
     ax.barh(i, 1, left=0, color="gray", alpha=0.4, height=0.5, label=("Normal Range" if lang == "English" else "Норма") if i == 0 else "")
 
-# Plot patient values as blue dots
-ax.scatter(normalized_patient_values, range(len(reference_ranges)), color="blue", s=100, label=("Your Value" if lang == "English" else "Ваше значение"))
+# Plot patient values as blue dots (within normal range) & red dots (outside range)
+for i, value in enumerate(normalized_patient_values):
+    color = "blue" if 0 <= value <= 1 else "red"  # Red for extreme values
+    ax.scatter(value, i, color=color, s=100, label=("Your Value" if lang == "English" else "Ваше значение") if i == 0 else "")
 
 # Format chart
 ax.set_yticks(range(len(reference_ranges)))
 ax.set_yticklabels(translated_labels, fontsize=11)
-ax.set_xlabel("Normalized Value (0 to 1)" if lang == "English" else "Нормализованное значение (0 до 1)")
+ax.set_xlabel("Normalized Value (0 to 1, Extreme Values Shown)" if lang == "English" else "Нормализованное значение (0 до 1, экстремальные значения видны)")
 ax.set_title("Comparison of Your Values with Normal Ranges" if lang == "English" else "Сравнение Ваших значений с нормой", fontsize=14, fontweight="bold")
 ax.legend()
-ax.set_xlim([-0.1, 1.1])  # Extend beyond 0-1 slightly for clarity
+ax.set_xlim([x_min, x_max])  # Extend beyond 0-1 if needed
 
 st.pyplot(fig)
-
