@@ -91,7 +91,7 @@ if st.button(translations["calculate"][lang]):
         st.error(f"🚨 Error: {e}")
 
 # 📌 **Feature Importance & Patient Value Visualization**
-st.subheader("📊 NAFLD Risk Markers – Normal Ranges vs. Your Values")
+st.subheader("📊 " + ("NAFLD Risk Markers – Normal Ranges vs. Your Values" if lang == "English" else "Маркерные показатели НАЖБП – Нормальные диапазоны vs. Ваши значения"))
 
 # Define reference ranges for key biomarkers (adjust values as needed)
 reference_ranges = {
@@ -110,26 +110,46 @@ reference_ranges = {
     "Glucose": (3.9, 5.5)
 }
 
+# Translations for feature names
+feature_translations = {
+    "Visceral Fat (%)": {"English": "Visceral Fat (%)", "Русский": "Висцеральный жир (%)"},
+    "ALT": {"English": "ALT", "Русский": "АЛТ"},
+    "AST": {"English": "AST", "Русский": "АСТ"},
+    "GGT": {"English": "GGT", "Русский": "ГГТП"},
+    "BMI": {"English": "BMI", "Русский": "ИМТ"},
+    "CRP": {"English": "CRP", "Русский": "СРБ"},
+    "Body Fat (%)": {"English": "Body Fat (%)", "Русский": "Жир (%)"},
+    "LDL": {"English": "LDL", "Русский": "ЛПНП"},
+    "Ferritin": {"English": "Ferritin", "Русский": "Ферритин"},
+    "Skeleton (%)": {"English": "Skeleton (%)", "Русский": "Скелет (%)"},
+    "Triglycerides": {"English": "Triglycerides", "Русский": "Триглицериды"},
+    "Insulin": {"English": "Insulin", "Русский": "Инсулин"},
+    "Glucose": {"English": "Glucose", "Русский": "Глюкоза"}
+}
+
 # Convert patient input into a list
 patient_values = [user_input_dict[feat] for feat in reference_ranges.keys()]
 min_values = [reference_ranges[feat][0] for feat in reference_ranges.keys()]
 max_values = [reference_ranges[feat][1] for feat in reference_ranges.keys()]
+
+# Get translated feature names
+translated_labels = [feature_translations[feat][lang] for feat in reference_ranges.keys()]
 
 # 📊 Plot reference ranges and patient values
 fig, ax = plt.subplots(figsize=(10, 8))
 
 # Plot normal range bars
 for i, (min_val, max_val) in enumerate(zip(min_values, max_values)):
-    ax.barh(i, max_val - min_val, left=min_val, color="gray", alpha=0.4, height=0.5, label="Normal Range" if i == 0 else "")
+    ax.barh(i, max_val - min_val, left=min_val, color="gray", alpha=0.4, height=0.5, label=("Normal Range" if lang == "English" else "Норма") if i == 0 else "")
 
 # Plot patient values as blue dots
-ax.scatter(patient_values, range(len(reference_ranges)), color="blue", s=100, label="Your Value")
+ax.scatter(patient_values, range(len(reference_ranges)), color="blue", s=100, label=("Your Value" if lang == "English" else "Ваше значение"))
 
 # Format chart
 ax.set_yticks(range(len(reference_ranges)))
-ax.set_yticklabels(list(reference_ranges.keys()), fontsize=11)
-ax.set_xlabel("Value")
-ax.set_title("Comparison of Your Values with Normal Ranges", fontsize=14, fontweight="bold")
+ax.set_yticklabels(translated_labels, fontsize=11)
+ax.set_xlabel("Value" if lang == "English" else "Значение")
+ax.set_title("Comparison of Your Values with Normal Ranges" if lang == "English" else "Сравнение Ваших значений с нормой", fontsize=14, fontweight="bold")
 ax.legend()
 ax.set_xlim([0, max(max_values) * 1.1])  # Slightly extend x-axis
 
