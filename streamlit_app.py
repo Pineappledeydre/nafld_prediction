@@ -5,21 +5,18 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from interpret.glassbox import ExplainableBoostingClassifier
 
-# 🚀 Set up Streamlit page config
 st.set_page_config(page_title="NAFLD Prediction / Прогноз НАЖБП", page_icon="💉", layout="wide")
 
-# 🔹 Load the trained EBM model
 MODEL_PATH = "models/ebm_model_v2.pkl"
 with open(MODEL_PATH, "rb") as file:
     ebm = pickle.load(file)
 
-# 🔹 Extract original features (EBM will create interactions internally)
 selected_features = [feature for feature in ebm.feature_names_in_ if "&" not in feature]
 
-# 🌍 Language selection
+# Language selection
 lang = st.radio("🌍 **Select Language / Выберите язык:**", ("English", "Русский"))
 
-# 🌍 Translations for UI elements
+# Translations for UI elements
 translations = {
     "title": {"English": "NAFLD Prediction", "Русский": "Прогноз НАЖБП"},
     "desc": {
@@ -36,7 +33,6 @@ translations = {
     "prediction results": {"English": "Prediction Results", "Русский": "Результаты Прогноза "}
 }
 
-# 📌 Feature Translations (for user input fields)
 feature_translations = {
     "Visceral Fat (%)": {"English": "Visceral Fat (%)", "Русский": "Висцеральный жир (%)"},
     "ALT": {"English": "ALT", "Русский": "АЛТ"},
@@ -54,23 +50,18 @@ feature_translations = {
     "Glucose": {"English": "Glucose", "Русский": "Глюкоза"}
 }
 
-# 🎯 **User Input Form**
 st.title(translations["title"][lang])
 st.write(translations["desc"][lang])
 
-# 🔹 Collect user inputs dynamically based on selected features
 user_input_dict = {}
 for feature in selected_features:
     translated_label = feature_translations[feature][lang]
-    user_input_dict[feature] = st.number_input(f"**{translated_label}**", min_value=0.0, max_value=500.0, value=20.0)
+    user_input_dict[feature] = st.number_input(f"**{translated_label}**", min_value=0.0, max_value=500.0, value=0.0)
 
-# 🎯 **Prediction Button**
 if st.button(translations["calculate"][lang]):
     try:
-        # Convert input dictionary to DataFrame
         input_df = pd.DataFrame([user_input_dict])
 
-        # Ensure correct feature order for the model
         input_df = input_df[selected_features]
 
         # Predict NAFLD probability
@@ -90,10 +81,8 @@ if st.button(translations["calculate"][lang]):
     except Exception as e:
         st.error(f"🚨 Error: {e}")
 
-# 📌 **Feature Importance & Patient Value Visualization**
-st.subheader("📊 " + ("NAFLD Risk Markers – Normal Ranges vs. Your Values" if lang == "English" else "Маркерные показатели НАЖБП – Нормальные диапазоны vs. Ваши значения"))
+st.subheader("NAFLD Risk Markers – Normal Ranges vs. Your Values" if lang == "English" else "Маркерные показатели НАЖБП – Нормальные диапазоны vs. Ваши значения")
 
-# Define reference ranges for key biomarkers (adjust values as needed)
 reference_ranges = {
     "Visceral Fat (%)": (5, 15),
     "ALT": (7, 41),
@@ -110,7 +99,6 @@ reference_ranges = {
     "Glucose": (3.9, 5.5)
 }
 
-# Translations for feature names
 feature_translations = {
     "Visceral Fat (%)": {"English": "Visceral Fat (%)", "Русский": "Висцеральный жир (%)"},
     "ALT": {"English": "ALT", "Русский": "АЛТ"},
@@ -129,43 +117,35 @@ feature_translations = {
 
 # Function to normalize values (0 to 1 scale)
 def normalize(value, min_val, max_val):
-    return (value - min_val) / (max_val - min_val) if max_val != min_val else 0.5  # Default to middle if range is zero
-
-# Convert patient input into a list & normalize values
+    return (value - min_val) / (max_val - min_val) if max_val != min_val else 0.5 
+    
 patient_values = [user_input_dict[feat] for feat in reference_ranges.keys()]
 min_values = [reference_ranges[feat][0] for feat in reference_ranges.keys()]
 max_values = [reference_ranges[feat][1] for feat in reference_ranges.keys()]
 normalized_patient_values = [normalize(value, min_val, max_val) for value, min_val, max_val in zip(patient_values, min_values, max_values)]
 
-# Get translated feature names
 translated_labels = [feature_translations[feat][lang] for feat in reference_ranges.keys()]
 
-# Find max and min normalized values to adjust the X-axis dynamically
 min_scaled_value = min(normalized_patient_values)
 max_scaled_value = max(normalized_patient_values)
 
-# Extend X-axis limits to show extreme values
-x_min = min(0, min_scaled_value - 0.2)  # Extend to the left if extreme low values exist
-x_max = max(1.1, max_scaled_value + 0.2)  # Extend to the right if extreme high values exist
+x_min = min(0, min_scaled_value - 0.2)  
+x_max = max(1.1, max_scaled_value + 0.2)  
 
-# 📊 Plot normalized values vs. normal range
 fig, ax = plt.subplots(figsize=(10, 8))
 
-# Plot normal range bars (all in range 0-1)
 for i in range(len(reference_ranges)):
     ax.barh(i, 1, left=0, color="gray", alpha=0.4, height=0.5, label=("Normal Range" if lang == "English" else "Норма") if i == 0 else "")
 
-# Plot patient values as blue dots (within normal range) & red dots (outside range)
 for i, value in enumerate(normalized_patient_values):
-    color = "blue" if 0 <= value <= 1 else "red"  # Red for extreme values
+    color = "blue" if 0 <= value <= 1 else "red"  # red for extreme values
     ax.scatter(value, i, color=color, s=100, label=("Your Value" if lang == "English" else "Ваше значение") if i == 0 else "")
 
-# Format chart
 ax.set_yticks(range(len(reference_ranges)))
 ax.set_yticklabels(translated_labels, fontsize=11)
 ax.set_xlabel("Normalized Value (0 to 1, Extreme Values Shown)" if lang == "English" else "Нормализованное значение (0 до 1, экстремальные значения видны)")
 ax.set_title("Comparison of Your Values with Normal Ranges" if lang == "English" else "Сравнение Ваших значений с нормой", fontsize=14, fontweight="bold")
 ax.legend()
-ax.set_xlim([x_min, x_max])  # Extend beyond 0-1 if needed
+ax.set_xlim([x_min, x_max])  
 
 st.pyplot(fig)
