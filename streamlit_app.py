@@ -81,8 +81,6 @@ if st.button(translations["calculate"][lang]):
     except Exception as e:
         st.error(f"🚨 Error: {e}")
 
-st.subheader("NAFLD Risk Markers – Normal Ranges vs. Your Values" if lang == "English" else "Маркерные показатели НАЖБП – Нормальные диапазоны vs. Ваши значения")
-
 reference_ranges = {
     "Visceral Fat (%)": (5, 15),
     "ALT": (7, 41),
@@ -105,6 +103,7 @@ def normalize(value, min_val, max_val):
     return (value - min_val) / (max_val - min_val) if max_val != min_val else 0.5 
     
 patient_values = [user_input_dict[feat] for feat in reference_ranges.keys()]
+print(patient_values)
 min_values = [reference_ranges[feat][0] for feat in reference_ranges.keys()]
 max_values = [reference_ranges[feat][1] for feat in reference_ranges.keys()]
 normalized_patient_values = [normalize(value, min_val, max_val) for value, min_val, max_val in zip(patient_values, min_values, max_values)]
