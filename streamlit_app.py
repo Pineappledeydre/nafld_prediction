@@ -96,7 +96,8 @@ reference_ranges = {
     "Skeleton (%)": (30, 40),
     "Triglycerides": (0, 1.7),
     "Insulin": (2.0, 26.0),
-    "Glucose": (3.9, 5.5)
+    "Glucose": (3.9, 5.5),
+    "Chest Circumference (cm)": (70, 120)
 }
 
 # Function to normalize values (0 to 1 scale)
