@@ -99,22 +99,6 @@ reference_ranges = {
     "Glucose": (3.9, 5.5)
 }
 
-feature_translations = {
-    "Visceral Fat (%)": {"English": "Visceral Fat (%)", "Русский": "Висцеральный жир (%)"},
-    "ALT": {"English": "ALT", "Русский": "АЛТ"},
-    "AST": {"English": "AST", "Русский": "АСТ"},
-    "GGT": {"English": "GGT", "Русский": "ГГТП"},
-    "BMI": {"English": "BMI", "Русский": "ИМТ"},
-    "CRP": {"English": "CRP", "Русский": "СРБ"},
-    "Body Fat (%)": {"English": "Body Fat (%)", "Русский": "Жир (%)"},
-    "LDL": {"English": "LDL", "Русский": "ЛПНП"},
-    "Ferritin": {"English": "Ferritin", "Русский": "Ферритин"},
-    "Skeleton (%)": {"English": "Skeleton (%)", "Русский": "Скелет (%)"},
-    "Triglycerides": {"English": "Triglycerides", "Русский": "Триглицериды"},
-    "Insulin": {"English": "Insulin", "Русский": "Инсулин"},
-    "Glucose": {"English": "Glucose", "Русский": "Глюкоза"}
-}
-
 # Function to normalize values (0 to 1 scale)
 def normalize(value, min_val, max_val):
     return (value - min_val) / (max_val - min_val) if max_val != min_val else 0.5 
