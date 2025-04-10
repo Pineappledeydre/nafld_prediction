@@ -1,4 +1,4 @@
-Here’s your **improved README** with better clarity, structure, and formatting:
+Here’s your updated **README** with the requested additions:
 
 ---
 
@@ -40,21 +40,22 @@ streamlit run streamlit_app.py
 ```
 nafld_prediction
 ├── models
-│   ├── ebm_model.pkl          # Trained EBM model
+│   ├── ebm_model.pkl             # Trained EBM model
 │   ├── ebm_model_v2.pkl          # Trained EBM model - version 2
 ├── data
 │   ├── feature_min_max_values.csv  # Reference values for normalization
-├── streamlit_app.py         # Main Streamlit app
-├── requirements.txt         # Dependencies
-├── README.md                # Documentation
-└── screenshot.png           # App preview image
+├── streamlit_app.py             # Main Streamlit app
+├── requirements.txt             # Dependencies
+├── README.md                    # Documentation
+└── screenshot.png               # App preview image
 ```
 
 ---
 
 ## **Model Details**
 - **Algorithm**: Explainable Boosting Machine (EBM) – A transparent, interpretable ML model.
-- **Dataset**: Clinical data on liver health markers and metabolic indicators.
+- **Dataset**: Clinical data on liver health markers and metabolic indicators.  
+  ➤ **The training dataset can be provided upon request.**
 - **Features Used**:
   - **Metabolic Markers**: BMI, LDL, Triglycerides, Glucose, Insulin.
   - **Liver Enzymes**: ALT, AST, GGT.
@@ -72,6 +73,7 @@ nafld_prediction
 ---
 
 ## **Preview**
+🔗 **[Live Streamlit App](https://nafld-prediction.streamlit.app/)** – Try out the prediction tool in real-time.  
 🔗 **[Live Dashboard](https://datalens.yandex/ppnglqr1jrjeb)** – Interactive data insights from the NAFLD prediction model.
 
 ---
@@ -82,4 +84,6 @@ This application is **not a substitute for professional medical advice**. Please
 ---
 
 **Developed with ❤️ by Pineappledeydre**  
-If you find this useful, consider giving the repository a ⭐   
+If you find this useful, consider giving the repository a ⭐  
+
+---
