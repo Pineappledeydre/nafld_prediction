@@ -70,8 +70,8 @@ if st.button(translations["calculate"][lang]):
 
         # Show results
         st.subheader(translations["prediction results"][lang])
-        st.write(f"**{translations['probability'][lang]}:** {probability:.4f}")
-        st.write(f"**{translations['class'][lang]}:** {predicted_class}")
+        # st.write(f"**{translations['probability'][lang]}:** {probability:.4f}")
+        # st.write(f"**{translations['class'][lang]}:** {predicted_class}")
 
         if predicted_class == translations["sick"][lang]:
             st.error(translations["alert"][lang])
