@@ -116,7 +116,7 @@ max_scaled_value = max(normalized_patient_values)
 x_min = min(0, min_scaled_value - 0.2)  
 x_max = max(1.1, max_scaled_value + 0.2)  
 
-fig, ax = plt.subplots(figsize=(10, 8))
+fig, ax = plt.subplots(figsize=(7, 5))
 
 for i in range(len(reference_ranges)):
     ax.barh(i, 1, left=0, color="gray", alpha=0.4, height=0.5, label=("Normal Range" if lang == "English" else "Норма") if i == 0 else "")
